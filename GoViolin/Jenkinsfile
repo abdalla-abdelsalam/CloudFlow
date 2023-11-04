@@ -42,7 +42,7 @@ pipeline {
         stage('Deploy to EKS') {
             steps {
                 // Update Kubeconfig for the EKS cluster
-                sh "aws eks --region us-east-1 update-kubeconfig --name eks-cluster"
+                sh "aws eks --region us-east-1 update-kubeconfig --name goviolin-eks"
                 // Deploy Kubernetes resources
                 sh "kubectl apply -f ./GoViolin/k8s/deployment.yaml"
                 sh "kubectl apply -f ./GoViolin/k8s/service.yaml"

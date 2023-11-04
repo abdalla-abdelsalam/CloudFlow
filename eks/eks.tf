@@ -1,6 +1,6 @@
 # Create EKS cluster
-resource "aws_eks_cluster" "project-eks" {
-  name     = "project-eks"
+resource "aws_eks_cluster" "goviolin-eks" {
+  name     = "goviolin-eks"
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
