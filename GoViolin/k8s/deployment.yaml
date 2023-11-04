@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goviolin
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: goviolin
+      
+  template:
+    metadata:
+      labels:
+        app: goviolin
+    spec:
+      containers:
+        - name: goviolin
+          image: 017520465419.dkr.ecr.us-east-1.amazonaws.com/goviolin
+          ports:
+            - containerPort: 8080
+          

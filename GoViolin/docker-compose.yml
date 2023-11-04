@@ -1,0 +1,9 @@
+# docker compose installation option
+version: "3"
+services:
+  goviolin:
+    image: mahdyy/goviolin:latest
+    ports:
+      - 8081:8080
+    environment:
+      - GO111MODULE=on

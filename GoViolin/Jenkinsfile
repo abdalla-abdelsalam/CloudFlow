@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
+        AWS_DEFAULT_REGION = "us-east1"
+        registry='017520465419.dkr.ecr.us-east-1.amazonaws.com/goviolin'
+        pipelineEmail = 'testingfeature101@gmail.com'
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Get some code from a GitHub repository
+                git branch: 'main', url: 'https://github.com/abdalla-abdelsalam/CloudFlow'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                // Build the Docker image
+                sh "docker build -t goviolin ./GoViolin"
+                // Tag the Docker image
+                sh "docker tag goviolin $registry:latest"
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                // Log in to AWS ECR and push the Docker image
+                sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $registry"
+                // push to ecr
+                sh "docker push $registry:latest"
+            }
+        }
+        stage('Remove Unused docker image') {
+            steps{
+                sh "docker rmi $registry:latest"
+            }
+        }
+
+        stage('Deploy to EKS') {
+            steps {
+                // Update Kubeconfig for the EKS cluster
+                sh "aws eks --region us-east-1 update-kubeconfig --name eks-cluster"
+                // Deploy Kubernetes resources
+                sh "kubectl apply -f ./GoViolin/k8s/deployment.yaml"
+                sh "kubectl apply -f ./GoViolin/k8s/service.yaml"
+            }
+        }
+    }
+    post {  
+        success {  
+                echo 'congrats, another successful build !!'
+                mail bcc: '', body: "<b>successful build for deployment infrastructure</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> build URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "Project name -> ${env.JOB_NAME}", to: "$pipelineEmail";  
+            }  
+        failure {
+            echo 'build failed !!'    
+            mail bcc: '', body: "<b>build failed for deployment infrastructre</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> build URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "$pipelineEmail";
+            }  
+    }
+}
