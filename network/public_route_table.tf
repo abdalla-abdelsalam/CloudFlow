@@ -1,14 +1,14 @@
 # Create Public Route Table
 resource "aws_route_table" "public-route-table" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.project-vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
+    gateway_id = aws_internet_gateway.internet-gateway.id
   }
 
   tags = {
-    Name = "public-route-table"
+    Name = "pub-route-table"
   }
 
 }

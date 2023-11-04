@@ -13,3 +13,13 @@ variable "node_group_instance_types" {
   type        = list(any)
 }
 
+variable "node_group_subnet_ids" {
+  description = "subnets associated with the EKS Node Group"
+  type        = list(any)
+}
+
+variable "eks_cluster_subnet_ids" {
+  description = "subnets associated with the EKS Cluster"
+  type        = list(any)
+}
+
