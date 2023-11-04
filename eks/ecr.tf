@@ -1,5 +1,5 @@
 # Create an Elastic Container Registry Repository
-resource "aws_ecr_repository" "images-Repository" {
+resource "aws_ecr_repository" "ecr-registry" {
   name                 = "goviolin"
   # allow image tags to be overwritten
   image_tag_mutability = "MUTABLE"
