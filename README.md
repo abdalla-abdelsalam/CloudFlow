@@ -65,4 +65,4 @@ Pipeline Stages:
 
 * Regularly update and patch software and dependencies to address security vulnerabilities.
 
-* Implement network security, such as VPC security groups and IAM roles, to restrict access and permissions.
+* Implement network security, such as security groups and IAM roles, to restrict access and permissions.
