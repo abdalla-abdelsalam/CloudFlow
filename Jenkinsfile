@@ -46,8 +46,8 @@ pipeline {
                 script {
                     sh "aws ecr delete-repository --repository-name goviolin --force"
                     sh "aws eks --region us-east-1 update-kubeconfig --name goviolin-eks"
-                    sh "kubectl apply -f ./GoViolin/k8s/deployment.yaml"
-                    sh "kubectl apply -f ./GoViolin/k8s/service.yaml"
+                    sh "kubectl delete -f ./GoViolin/k8s/deployment.yaml"
+                    sh "kubectl delete -f ./GoViolin/k8s/service.yaml"
                     sh "terraform destroy -auto-approve"
                 }
             }
