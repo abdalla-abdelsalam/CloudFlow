@@ -3,7 +3,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
-        AWS_DEFAULT_REGION = "us-east1"
+        AWS_DEFAULT_REGION = "us-east-1"
         registry='017520465419.dkr.ecr.us-east-1.amazonaws.com/goviolin'
         pipelineEmail = 'testingfeature101@gmail.com'
     }
@@ -44,8 +44,7 @@ pipeline {
                 // Update Kubeconfig for the EKS cluster
                 sh "aws eks --region us-east-1 update-kubeconfig --name goviolin-eks"
                 // Deploy Kubernetes resources
-                sh "kubectl apply -f ./GoViolin/k8s/deployment.yaml"
-                sh "kubectl apply -f ./GoViolin/k8s/service.yaml"
+                sh "kubectl apply -f ."
             }
         }
     }

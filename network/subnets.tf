@@ -9,7 +9,7 @@ resource "aws_subnet" "public_subnet" {
   tags = {
     Name = "public-subnet"
     "kubernetes.io/role/elb"     = "1"
-    "kubernetes.io/cluster/project-eks" = "owned" 
+    "kubernetes.io/cluster/goviolin-eks" = "owned" 
   }
 }
 
@@ -23,7 +23,7 @@ resource "aws_subnet" "private_subnet" {
   tags = {
     Name = "private_subnet"
     "kubernetes.io/role/internal-elb" = "1"
-    "kubernetes.io/cluster/project-eks"      = "owned"
+    "kubernetes.io/cluster/goviolin-eks"      = "owned"
   }
 }
 
